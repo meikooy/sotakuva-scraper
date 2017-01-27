@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise;
 
 
 const Image = mongoose.model('Image', {
+    'indexed_to_algolia': Boolean,
     'details_fetched':   Boolean,
     'sa_id':            String,
     'caption':          String,
@@ -14,7 +15,7 @@ const Image = mongoose.model('Image', {
     'source':           String,
     'thumbnail_url':    String,
     'image_url':        String,
-    'era':              String,
+    'era':              Number,
     'date':             Date
 });
 

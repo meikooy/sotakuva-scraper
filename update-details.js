@@ -31,6 +31,7 @@ function updateDetailsForImage(image) {
                         var $ = cheerio.load(html);
                         image.thumbnail_url = `http://sa-kuva.fi${$('img').first().attr('src')}`;
                         image.details_fetched = true;
+                        console.log(`Updated image ${image.sa_id}`);
                         resolve(image.save());
                     }
                     else {
@@ -48,7 +49,7 @@ function updateDetailsForImage(image) {
 
 function updateImagesWithoutDetails(limit) {
 	return new Promise((resolve, reject) => {
-		var where = {
+		const where = {
 			details_fetched: {
 				$ne: true
 			}
@@ -85,5 +86,6 @@ function run() {
 	);
 
 }
+
 
 run();
