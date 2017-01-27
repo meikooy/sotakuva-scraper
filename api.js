@@ -16,7 +16,10 @@ const Image = mongoose.model('Image', {
     'thumbnail_url':    String,
     'image_url':        String,
     'era':              Number,
-    'date':             Date
+    'date':             Date,
+    'year':             Number,
+    'month':            Number,
+    'day':              Number,
 });
 
 module.exports.Image = Image;

@@ -16,7 +16,7 @@ function updateDetailsForImage(image) {
         request({url, encoding: null}, function(error, response, html) {
             if (!error) {
             	html = iconv.decode(new Buffer(html), 'ISO-8859-1');
-            	
+
                 var $ = cheerio.load(html);
                 image.author = $('input[name="photographer"]').val() || '';
                 image.place = $('input[name="photoplace"]').val() || '';
@@ -25,13 +25,25 @@ function updateDetailsForImage(image) {
                 image.description = $('textarea[name="description"]').val() || '';
                 image.image_url = `http://sa-kuva.fi/neo2?tem=webneo_image_download&lang=FIN&id=${image.sa_id}&archive=&name=${image.title}`;
 
-                const previewUrl = `http://sa-kuva.fi/neo?tem=webneo_image_preview_max&lang=FIN&doc_id=${image.sa_id}&archive=&zoom=YES`; 
+                const previewUrl = `http://sa-kuva.fi/neo?tem=webneo_image_preview_max&lang=FIN&doc_id=${image.sa_id}&archive=&zoom=YES`;
                 request(previewUrl, function(error, response, html) {
                     if (!error) {
                         var $ = cheerio.load(html);
+
+                        const dateMatch = $('.preview_text').text()
+                            .match(/(\d{4,4}).(\d\d).(\d\d)$/);
+                        if (dateMatch) {
+                            image.year = dateMatch[1];
+                            image.month = dateMatch[2];
+                            image.day = dateMatch[3];
+                            image.date = dateMatch.length
+                                ? new Date(image.year, image.month, image.day)
+                                : null;
+                        }
+
                         image.thumbnail_url = `http://sa-kuva.fi${$('img').first().attr('src')}`;
                         image.details_fetched = true;
-                        console.log(`Updated image ${image.sa_id}`);
+                        console.log(`Updated image ${image.sa_id} ${image.date}`);
                         resolve(image.save());
                     }
                     else {
