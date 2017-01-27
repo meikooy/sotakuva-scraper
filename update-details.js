@@ -63,7 +63,7 @@ function updateImagesWithoutDetails(limit) {
 	return new Promise((resolve, reject) => {
 		const where = {
 			details_fetched: {
-				$ne: true
+				$ne: false
 			}
 		};
 

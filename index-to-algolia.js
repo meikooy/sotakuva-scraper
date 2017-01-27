@@ -16,7 +16,7 @@ function indexImagesToAlgolia(limit) {
 	return new Promise((resolve, reject) => {
 		const where = {
 			indexed_to_algolia: {
-				$ne: true
+				$ne: false
 			},
 			details_fetched: {
 				$eq: true
@@ -30,7 +30,26 @@ function indexImagesToAlgolia(limit) {
 		const query = Image.find(where, null, options, (err, images) => {
 			console.log(`Found ${images.length} images.`);
 
-			imagesIndex.addObjects(images, (err, content) => {
+			const imagesForAlgolia = images.map(image => {
+				return {
+					sa_id: image.sa_id,
+					_id: image._id,
+					caption: image.caption,
+					description: image.description,
+					author: image.author,
+					place: image.place,
+					source: image.source,
+					thumbnail_url: image.thumbnail_url,
+					image_url: image.image_url,
+					era: image.era,
+					date: image.date ? Math.round(new Date(image.date).getTime() / 1000) : null,
+					year: image.year,
+					month: image.month,
+					day: image.day
+				};
+			});
+
+			imagesIndex.addObjects(imagesForAlgolia, (err, content) => {
                 if (err) {
                     console.log(err);
                     reject(err);
@@ -56,7 +75,7 @@ function indexImagesToAlgolia(limit) {
 
 function run() {
 
-	const limit = 100;
+	const limit = 50;
 	indexImagesToAlgolia(limit).then(
 		operations => {
 			setTimeout(run, WAIT_TIME);
