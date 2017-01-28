@@ -28,7 +28,7 @@ function indexImagesToAlgolia(limit) {
 		};
 
 		const query = Image.find(where, null, options, (err, images) => {
-			console.log(`Found ${images.length} images.`);
+			console.log(`Found ${images.length} images ${new Date()}`);
 
 			const imagesForAlgolia = images.map(image => {
 				return {
