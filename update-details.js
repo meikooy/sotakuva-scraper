@@ -23,7 +23,14 @@ function updateDetailsForImage(image) {
                 image.source = $('input[name="source"]').val() || '';
                 image.caption = $('textarea[name="caption"]').val() || '';
                 image.description = $('textarea[name="description"]').val() || '';
-                image.image_url = `http://sa-kuva.fi/neo2?tem=webneo_image_download&lang=FIN&id=${image.sa_id}&archive=&name=${image.title}`;
+                image.image_url = `http://sa-kuva.fi/neo2?tem=webneo_image_download&lang=FIN&id=${image.sa_id}&archive=&name=sakuva.jpg`;
+
+                const eras = {
+                    1: 'Talvisota',
+                    2: 'Jatkosota',
+                    3: 'Lapin sota'
+                };
+                image.era_title = eras[image.era];
 
                 const previewUrl = `http://sa-kuva.fi/neo?tem=webneo_image_preview_max&lang=FIN&doc_id=${image.sa_id}&archive=&zoom=YES`;
                 request(previewUrl, function(error, response, html) {
@@ -72,7 +79,7 @@ function updateImagesWithoutDetails(limit) {
 		};
 
 		const query = Image.find(where, null, options, (err, images) => {
-			console.log(`Found ${images.length} images.`);
+			console.log(`Found ${images.length} images. ${new Date()}`);
 			const operations = [];
 			if (!err) {
 				_.forEach(images, image => {
