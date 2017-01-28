@@ -42,6 +42,7 @@ function indexImagesToAlgolia(limit) {
 					thumbnail_url: image.thumbnail_url,
 					image_url: image.image_url,
 					era: image.era,
+					era_title: image.era_title,
 					date: image.date ? Math.round(new Date(image.date).getTime() / 1000) : null,
 					year: image.year,
 					month: image.month,
@@ -75,7 +76,7 @@ function indexImagesToAlgolia(limit) {
 
 function run() {
 
-	const limit = 50;
+	const limit = 200;
 	indexImagesToAlgolia(limit).then(
 		operations => {
 			setTimeout(run, WAIT_TIME);
