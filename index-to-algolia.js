@@ -40,6 +40,7 @@ function indexImagesToAlgolia(limit) {
 					place: image.place,
 					source: image.source,
 					thumbnail_url: image.thumbnail_url,
+					preview_text: image.preview_text,
 					image_url: image.image_url,
 					era: image.era,
 					era_title: image.era_title,
@@ -76,7 +77,7 @@ function indexImagesToAlgolia(limit) {
 
 function run() {
 
-	const limit = 200;
+	const limit = 2000;
 	indexImagesToAlgolia(limit).then(
 		operations => {
 			setTimeout(run, WAIT_TIME);
@@ -89,4 +90,3 @@ function run() {
 }
 
 run();
-

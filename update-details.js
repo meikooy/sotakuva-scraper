@@ -95,17 +95,17 @@ function updateImagesWithoutDetails(limit) {
 
 function run() {
 
-	const limit = 50;
+	const limit = 100;
 	updateImagesWithoutDetails(limit).then(
 		operations => {
 			setTimeout(run, WAIT_TIME);
 		},
 		errors => {
 			console.log(errors);
+            setTimeout(run, WAIT_TIME);
 		}
 	);
 
 }
-
 
 run();
