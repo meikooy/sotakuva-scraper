@@ -15,7 +15,7 @@ const Image     = require('./api.js').Image;
 var total = 1;
 
 function getImagesFromIndex(era, from) {
-    const baseUrl = 'http://sa-kuva.fi/neo?tem=webneo_dynlist_fin_saint&startdate=19000101&enddate=20000101&xsearch_content=&withoutdate=1&view_name=SA_archiveX&publication=&verification=7aa7d22810600c57792a12b661bdefc8&from=';
+    const baseUrl = `http://sa-kuva.fi/neo?tem=webneo_dynlist_fin_saint&startdate=19000101&enddate=20000101&xsearch_content=&withoutdate=1&view_name=SA_archiveX&publication=${era}&verification=7aa7d22810600c57792a12b661bdefc8&from=`;
     const url = baseUrl + from;
 
     request(url, function(error, response, html) {
