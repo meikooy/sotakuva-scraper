@@ -13,9 +13,13 @@ const Image     = require('./api.js').Image;
 
 
 var total = 1;
+var skip = 0;
 
 function getImagesFromIndex(era, from) {
-    if (era > 3) return;
+    if (era > 3) {
+        console.log('STOP');
+        return;
+    }
 
     const baseUrl = `http://sa-kuva.fi/neo?tem=webneo_dynlist_fin_saint&startdate=19000101&enddate=20000101&xsearch_content=&withoutdate=1&view_name=SA_archiveX&publication=${era}&verification=7aa7d22810600c57792a12b661bdefc8&from=`;
     const url = baseUrl + from;
@@ -39,6 +43,12 @@ function getImagesFromIndex(era, from) {
 
             Promise.all(images.map(i => {
                 const imageProps = {sa_id: i.sa_id, era: i.era};
+
+                if (total < skip) {
+                    console.log('skipping...');
+                    return Promise.resolve();
+                }
+
                 return new Promise((resolve, reject) => {
                     Image.count({sa_id: i.sa_id}, (err, count) => {
                         if (count > 0) {
@@ -55,10 +65,11 @@ function getImagesFromIndex(era, from) {
                 total += images.length;
                 console.log(`${total} found`);
                 if (images.length > 0) {
-                    setTimeout(() => getImagesFromIndex(era, total), 30);
+                    setTimeout(() => getImagesFromIndex(era, total), 50);
                 }
                 else {
                     console.log(html);
+                    console.log('next era ' + (era + 1));
                     getImagesFromIndex(era + 1, 1);
                 }
             })
@@ -70,4 +81,12 @@ function getImagesFromIndex(era, from) {
     });
 }
 
-getImagesFromIndex(1, 1);
+Image.count().then(
+    c => {
+        skip = c;
+        console.log('Skipping ' + c);
+        getImagesFromIndex(1, 1);
+    }
+);
+
+

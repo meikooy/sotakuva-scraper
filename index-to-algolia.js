@@ -16,7 +16,7 @@ function indexImagesToAlgolia(limit) {
 	return new Promise((resolve, reject) => {
 		const where = {
 			indexed_to_algolia: {
-				$ne: false
+				$ne: true
 			},
 			details_fetched: {
 				$eq: true
@@ -32,8 +32,8 @@ function indexImagesToAlgolia(limit) {
 
 			const imagesForAlgolia = images.map(image => {
 				return {
+					objectID: image._id,
 					sa_id: image.sa_id,
-					_id: image._id,
 					caption: image.caption,
 					description: image.description,
 					author: image.author,
@@ -88,5 +88,5 @@ function run() {
 
 }
 
-
 run();
+

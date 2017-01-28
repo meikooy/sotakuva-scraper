@@ -48,6 +48,7 @@ function updateDetailsForImage(image) {
                                 : null;
                         }
 
+                        image.preview_text = $('.preview_text').text();
                         image.thumbnail_url = `http://sa-kuva.fi${$('img').first().attr('src')}`;
                         image.details_fetched = true;
                         console.log(`Updated image ${image.sa_id} ${image.date}`);
@@ -70,7 +71,7 @@ function updateImagesWithoutDetails(limit) {
 	return new Promise((resolve, reject) => {
 		const where = {
 			details_fetched: {
-				$ne: false
+				$ne: true
 			}
 		};
 
