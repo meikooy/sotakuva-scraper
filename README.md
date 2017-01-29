@@ -1,5 +1,3 @@
-# sotakuva-scraper
+# Rintamalla – Suomen Armeijan kuva-arkisto
 
-Scrapes images from sa-kuva.fi and saves them to mongodb. Use wisely.
-
-Developed during the Meiko HACKS event 27.-28.1.2017.
+Kehitetty kokonaisuudessaan Meiko HACKS -tapahtumassa 27.1. - 28.1. satavuotiaan Suomen kunniaksi.
